@@ -153,8 +153,16 @@ A prebuilt package for Ubuntu 26.04 / amd64 is published on the
 [**Releases**](../../releases) page:
 
 ```bash
-sudo apt install ./libfprint-2-tod-vfs0090_0.96.91~f1_amd64.deb
+sudo apt install ./libfprint-2-tod-vfs0090_0.96.91.f1_amd64.deb
 ```
+
+> **Note on the filename.** The built package is named
+> `libfprint-2-tod-vfs0090_0.96.91~f1_amd64.deb` (with a tilde). GitHub
+> sanitizes `~` in release asset names to `.`, so the downloadable asset is
+> named `libfprint-2-tod-vfs0090_0.96.91.f1_amd64.deb`. This affects **only the
+> file name** — the package bytes are unchanged, and the internal Debian
+> version is still `0.96.91~f1`. `apt` does not care what the file is called.
+> Verify with `sha256sum -c SHA256SUMS` after downloading.
 
 `apt` resolves the dependencies (`libfprint-2-tod1`, `libnss3`, `libssl3t64`)
 and places the plugin in the correct TOD drivers directory automatically. The

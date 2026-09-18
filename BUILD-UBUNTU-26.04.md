@@ -18,6 +18,7 @@ another T460s owner can reproduce the build on the same release.
 | Change | `dependency('udev')` → `dependency('libudev')` |
 | Build command | `dpkg-buildpackage -b -us -uc` |
 | Produced artifact | `libfprint-2-tod-vfs0090_0.96.91~f1_amd64.deb` |
+| Published asset name | `libfprint-2-tod-vfs0090_0.96.91.f1_amd64.deb` (see §6.1) |
 | Not published | `libfprint-2-tod-vfs0090-dbgsym_0.96.91~f1_amd64.ddeb` (see §6) |
 
 The driver source (`vfs0090.c`, `vfs0090.h`) is **completely unmodified** from
@@ -205,6 +206,28 @@ The `.buildinfo` and `.changes` files are likewise excluded — they are
 build-metadata for archive uploads, not for end users.
 
 Only the installable `.deb` is published as a Release asset.
+
+### 6.1 GitHub release asset name: `~` becomes `.`
+
+GitHub sanitizes the `~` character in release asset names, replacing it with
+`.`. The asset therefore appears in the release as:
+
+```
+libfprint-2-tod-vfs0090_0.96.91.f1_amd64.deb
+```
+
+rather than the built name `libfprint-2-tod-vfs0090_0.96.91~f1_amd64.deb`.
+
+This is **cosmetic and harmless**:
+
+* The file **contents are byte-identical** — verified by downloading the
+  published asset and comparing SHA-256 against the locally built package.
+* The Debian version **inside** the package control metadata remains
+  `0.96.91~f1`; only the filename on the release page differs.
+* `apt`/`dpkg` do not care about the filename of a locally installed `.deb`.
+
+`SHA256SUMS` in the release lists the asset under its **published** name so
+that `sha256sum -c SHA256SUMS` works directly after downloading.
 
 ---
 
